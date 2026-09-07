@@ -1,0 +1,36 @@
+/* SimSim skin tokens, copied from the Paper file "SimSim" (24 colour tokens + type scale).
+   In the product these come from src/styles/skin.css; keep the names identical. */
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap');
+
+:root {
+  --color-paper: #FBFAF6;
+  --color-weak: #F6F5F0;
+  --color-weak-half: #F9F8F3;
+  --color-soft: #EFEDE6;
+  --color-bg-soft: #E3E0D8;
+  --color-ink: #171A21;
+  --color-ink-sub: #6A675E;
+  --color-ink-soft: #A9A598;
+  --color-stroke-soft: #E3E0D8;
+  --color-stroke-sub: #D0CCC1;
+  --color-indigo: #1E40AF;
+  --color-indigo-mid: #4F6BC4;
+  --color-indigo-dark: #172554;
+  --color-indigo-light: #C9D5F5;
+  --color-indigo-lighter: #E8EDFB;
+  --color-flag: #B45309;
+  --color-flag-dark: #7C3A06;
+  --color-flag-light: #EED4B8;
+  --color-flag-lighter: #F7EAD9;
+
+  --font-sans: 'Figtree', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --tracking-caps: 0.05em;
+  --tracking-tight: -0.006em;
+  --radius-card: 10px;
+  --shadow-card: 0 2px 8px #171A210F;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--color-weak); color: var(--color-ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+svg { display: block; }

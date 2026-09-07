@@ -1,0 +1,36 @@
+/* Card chrome, measured from the E030 Paper boards. Only the charts inside are SVG. */
+.stat { height: 148px; background: var(--color-paper); background-image: linear-gradient(180deg, var(--color-indigo-lighter) 0%, transparent 21.67%); border: 1px solid var(--color-stroke-soft); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 18px 22px; display: flex; flex-direction: column; gap: 10px; position: relative; overflow: clip; }
+.stat.sample { gap: 12px; }
+.caps { font-size: 11px; font-weight: 600; letter-spacing: var(--tracking-caps); line-height: 14px; color: var(--color-ink-sub); }
+.caps.indigo { color: var(--color-indigo); } .caps.flag { color: var(--color-flag); } .caps.soft { color: var(--color-ink-soft); }
+.stat .head { display: flex; justify-content: space-between; align-items: baseline; }
+.stat .hero { display: flex; justify-content: space-between; align-items: flex-end; }
+.stat .big { font-size: 38px; font-weight: 600; line-height: 44px; letter-spacing: var(--tracking-tight); color: var(--color-ink); }
+.stat .big.flag { color: var(--color-flag); }
+.stat .graphic { margin-bottom: 16px; flex-shrink: 0; }
+.meta { font-size: 12px; line-height: 16px; color: var(--color-ink-soft); }
+.sample-body { display: flex; gap: 20px; flex: 1; }
+.sample-left { width: 280px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; }
+.sample-count { display: flex; gap: 4px; align-items: baseline; font-size: 13px; line-height: 18px; color: var(--color-ink-sub); }
+.sample-count b { font-weight: 600; color: var(--color-ink); } .sample-count b.indigo { color: var(--color-indigo); }
+.sample-right { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; }
+
+.metric { width: 316px; background: #FFFFFF; border: 1px solid var(--color-stroke-soft); border-radius: 10px; padding: 14px 12px; display: flex; flex-direction: column; gap: 6px; }
+.metric .head { display: flex; justify-content: space-between; align-items: center; }
+.metric .delta { font-size: 11px; font-weight: 600; line-height: 14px; color: var(--color-indigo); }
+.metric .value { font-size: 24px; font-weight: 600; line-height: 28px; letter-spacing: var(--tracking-tight); }
+.metric .caption { font-size: 11px; line-height: 14px; color: var(--color-ink-soft); }
+.metric .range { display: flex; flex-direction: column; gap: 4px; padding-top: 4px; }
+.metric .range-labels { display: flex; justify-content: space-between; font-size: 10px; line-height: 12px; color: var(--color-ink-soft); }
+
+.filings { width: 775px; background: var(--color-paper); border: 1px solid var(--color-stroke-soft); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 8px 22px 12px; }
+.filing { height: 40px; display: flex; align-items: center; gap: 10px; border-top: 1px solid var(--color-weak); font-size: 12px; line-height: 16px; }
+.filing .name { flex: 1; min-width: 0; display: flex; gap: 8px; align-items: baseline; font-size: 13px; color: var(--color-ink); }
+.filing .id { font-family: var(--font-mono); font-size: 10px; line-height: 12px; color: var(--color-ink-soft); }
+.filing .score { width: 52px; text-align: right; font-size: 13px; font-weight: 600; flex-shrink: 0; }
+.filing .change { width: 44px; text-align: right; font-size: 12px; font-weight: 500; color: var(--color-indigo); flex-shrink: 0; }
+
+.chart-card { width: 569px; background: var(--color-paper); border: 1px solid var(--color-stroke-soft); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 26px 22px 18px; display: flex; flex-direction: column; gap: 10px; }
+.chart-card .captions { display: flex; flex-direction: column; gap: 2px; }
+.chart-card .trust { font-size: 12px; font-weight: 500; line-height: 16px; color: var(--color-ink-sub); }
+.chart-card .basis { font-size: 12px; line-height: 16px; color: var(--color-ink-soft); }
