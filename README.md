@@ -1,42 +1,44 @@
 # EP-030 charts in ECharts
 
-Every graphic on the Simplified Evals Dashboard boards (Paper file "SimSim", page E030), built with Apache ECharts 6. This is the reference implementation to lift into simsim-product. It ships alongside the Paper boards: each board annotation names the file here that draws its graphic.
+The charts on the SimSim Simplified Evals Dashboard (epic EP-030), built with Apache ECharts 6. The Paper boards for the epic point at the files in this repo.
 
 ```
 npm install
-npm run dev        # showcase page at http://localhost:5173
+npm run dev        # opens the showcase page
 ```
 
-## Which ECharts series each graphic uses
+## The graphics
 
-| Graphic | Story | File | ECharts |
+| Graphic | Story | File | How it is drawn |
 | --- | --- | --- | --- |
-| Improvement waffle columns | US-075 75.2, 75.3 | `src/charts/WaffleColumns.tsx` | `pictorialBar` with `symbolRepeat`, two series layered |
-| Accuracy by benchmark | US-071 71.1, 71.2 | `src/charts/BenchmarkChart.tsx` | three `line` series: stacked transparent floor + stacked `areaStyle` band, and the mean with `step: 'end'`; `markPoint` for the captions |
-| Filings sparkline | US-072 72.2.3 | `src/charts/Sparkline.tsx` | `line`, axes hidden, symbol on the last data item |
-| Heatmap (parked) | US-071 71.3 | `src/charts/Heatmap.tsx` | `heatmap` with a piecewise `visualMap` (colours and legend) |
-| Sample squares | US-075 75.4, 75.6 | `src/charts/SampleSquares.tsx` | not a chart: ten divs |
-| Metric range track | US-076 76.1.3 | `src/charts/RangeTrack.tsx` | not a chart: four divs |
+| Improvement columns | US-075 | `src/charts/WaffleColumns.tsx` | A `pictorialBar` series. A 10×4 rectangle repeats up each column, one per point gained. Two series draw over each other: the full column in indigo first, the history in indigo-light on top, so the squares left in indigo are the last run's gain. A loss in the last run swaps indigo for flag. A net decline uses negative values, which hang below the axis line. |
+| Accuracy by benchmark | US-071 | `src/charts/BenchmarkChart.tsx` | Three `line` series. The first carries the weakest filing and is invisible. The second stacks on it and carries the gap up to the strongest, filled: that is the band. The third is the mean as steps, with a dot and a label on every run. `markPoint` adds the best and weakest captions. |
+| Filings sparkline | US-072 | `src/charts/Sparkline.tsx` | One `line` series, 88×18, axes hidden, a dot on the last point only. |
+| Heatmap (parked) | US-071 | `src/charts/Heatmap.tsx` | A `heatmap` series. A piecewise `visualMap` colours the cells by score band and draws the legend. |
+| Sample squares | US-075 | `src/charts/SampleSquares.tsx` | Not a chart. Ten divs. |
+| Metric range line | US-076 | `src/charts/RangeTrack.tsx` | Not a chart. Four divs on a 60 to 100 scale. |
 
-## How it is wired
+## How ECharts is set up
 
-`src/charts/echarts.ts` is the only file that touches ECharts directly. It registers the three series and four components the dashboard uses (tree-shaking drops the rest of the library), registers the `simsim` theme built from the skin tokens, and exports `useECharts(option, width, height)`, a hook that mounts a chart in a fixed-size div with the SVG renderer and re-applies the option when it changes. Each chart component builds its option with `useMemo` and calls that hook. No wrapper package is needed.
+`src/charts/echarts.ts` is the only file that imports ECharts. It does three things:
 
-ECharts takes colours as values, not CSS variables, so the setup file reads the tokens off `:root` once at load. If the skin changes at runtime, re-read them and re-register the theme.
+1. Registers the series and components the dashboard uses, so the rest of the library is left out of the bundle.
+2. Registers the `simsim` theme, built from the skin tokens in `src/tokens.css`. ECharts wants colours as values, so the file reads the tokens off `:root` once at load.
+3. Exports `useECharts(option, width, height)`, a hook that puts a chart in a fixed-size div with the SVG renderer and applies the option again when it changes.
 
-`src/cards/` holds the HTML around each chart, measured from the boards. `src/tokens.css` is the skin. `src/data.ts` holds the mock numbers from the boards; the product reads them from the evaluation API.
+Each chart component builds its option in `useMemo` and calls the hook. There is no wrapper package.
 
-## Where ECharts draws differently from the boards
+`src/cards/` is the HTML around each chart, measured from the boards. `src/data.ts` is the mock data from the boards. The product reads the real numbers from the evaluation API.
 
-These are the places the Paper boards adopt ECharts' rendering rather than the other way round.
+## Where the boards follow ECharts
 
-- Benchmark chart: gridlines span the plotted runs, from the first to the last, instead of starting 50px before the first run.
-- Heatmap: no header band behind the run labels; the labels sit on the card. Column and row gaps are equal (3px). The legend is the visualMap's piecewise legend.
-- Tooltips: every chart has the themed tooltip on hover, dark ink with white text. The boards do not draw tooltips yet.
+- Benchmark chart: the gridlines run from the first run to the last, not from the axis.
+- Heatmap: no header band behind the run labels, and every cell has the same gap.
+- Tooltips: every chart shows the themed tooltip on hover. The boards show it once, on the states board.
 
-## Rules the charts follow
+## Rules
 
-- Colours come from the skin tokens through the theme. Indigo is asserted; flag is a loss or a warning.
-- Sizes are the Paper sizes. A chart takes the width the board gives it. For a responsive card, measure the container and pass the width into the hook; ECharts lays the grid out from the size it is given.
-- Animation is off (`animation: false`) because the boards have none and the numbers should not move on load.
-- Charts that carry meaning have `role="img"` and an `aria-label`; decorative ones are `aria-hidden`.
+- Colours come from the skin tokens through the theme. Indigo means a value; flag means a loss or a warning.
+- Charts take the size the board gives them. For a responsive card, measure the container and pass the width to the hook.
+- Animation is off. The numbers should not move on load.
+- Charts that carry meaning have `role="img"` and an `aria-label`. Decorative ones are `aria-hidden`.
